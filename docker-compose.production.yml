@@ -18,9 +18,9 @@ services:
 
   frontend:
     image: docker7904/kittygram_frontend
-    command: cp -r /app/build/. /frontend_static/ # Копируем файлы из образа в том
+    command: cp -r /app/build/. /frontend_static/
     volumes:
-      - ./frontend:/frontend_static/ # Маппим папку сервера
+      - ./frontend:/frontend_static/
 
   gateway:
     image: docker7904/kittygram_gateway
