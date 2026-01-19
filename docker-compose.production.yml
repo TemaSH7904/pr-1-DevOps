@@ -8,7 +8,8 @@ services:
       - pg_data:/var/lib/postgresql/data
 
   backend:
-    build: ./backend/
+    # Заменяем build на image твоего аккаунта Docker Hub
+    image: docker7904/kittygram_backend
     env_file: .env
     depends_on:
       - db
@@ -17,10 +18,12 @@ services:
       - media:/app/media/
 
   frontend:
-    build: ./frontend/
+    # Заменяем build на готовый образ frontend
+    image: docker7904/kittygram_frontend
 
   gateway:
-    build: ./nginx/
+    # Заменяем build на готовый образ nginx/gateway
+    image: docker7904/kittygram_gateway
     ports:
       - "80:80"
     volumes:
