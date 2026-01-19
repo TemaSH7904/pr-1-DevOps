@@ -8,7 +8,6 @@ services:
       - pg_data:/var/lib/postgresql/data
 
   backend:
-    # Заменяем build на image твоего аккаунта Docker Hub
     image: docker7904/kittygram_backend
     env_file: .env
     depends_on:
@@ -18,17 +17,22 @@ services:
       - media:/app/media/
 
   frontend:
-    # Заменяем build на готовый образ frontend
     image: docker7904/kittygram_frontend
+    # Добавляем volume для передачи файлов фронтенда в nginx
+    volumes:
+      - frontend_static:/app/build/
 
   gateway:
-    # Заменяем build на готовый образ nginx/gateway
     image: docker7904/kittygram_gateway
     ports:
       - "80:80"
     volumes:
-      - static:/staticfiles/
-      - media:/app/media/
+      # Маппим статику бэкенда туда, где её ждет Nginx
+      - static:/var/html/static/
+      # Маппим медиа
+      - media:/var/html/media/
+      # Маппим файлы фронтенда
+      - frontend_static:/usr/share/nginx/html/
     depends_on:
       - backend
       - frontend
@@ -37,3 +41,4 @@ volumes:
   pg_data:
   static:
   media:
+  frontend_static:
