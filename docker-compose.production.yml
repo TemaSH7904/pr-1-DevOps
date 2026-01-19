@@ -13,32 +13,25 @@ services:
     depends_on:
       - db
     volumes:
-      - static:/app/collected_static/
-      - media:/app/media/
+      - ./static:/app/collected_static/
+      - ./media:/app/media/
 
   frontend:
     image: docker7904/kittygram_frontend
-    # Добавляем volume для передачи файлов фронтенда в nginx
     volumes:
-      - frontend_static:/app/build/
+      - ./frontend:/app/build/
 
   gateway:
     image: docker7904/kittygram_gateway
     ports:
       - "80:80"
     volumes:
-      # Маппим статику бэкенда туда, где её ждет Nginx
-      - static:/var/html/static/
-      # Маппим медиа
-      - media:/var/html/media/
-      # Маппим файлы фронтенда
-      - frontend_static:/usr/share/nginx/html/
+      - ./static:/var/html/static/
+      - ./media:/var/html/media/
+      - ./frontend:/usr/share/nginx/html/
     depends_on:
       - backend
       - frontend
 
 volumes:
   pg_data:
-  static:
-  media:
-  frontend_static:
