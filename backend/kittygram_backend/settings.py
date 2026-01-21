@@ -1,11 +1,12 @@
 import os
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
 
 # Корень проекта
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Безопасность: получаем ключ из окружения или используем стандартный для тестов
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-cg6*%6d51ef8f#4!r3*$vmxm4)abgjw8mo!4y-q*uq1!4$-89$')
+# Безопасность: генерируем случайный ключ, если его нет в окружении
+SECRET_KEY = os.getenv('SECRET_KEY', get_random_secret_key())
 
 # DEBUG в продакшене всегда должен быть False
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
