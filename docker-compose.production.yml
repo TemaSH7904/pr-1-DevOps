@@ -18,7 +18,6 @@ services:
 
   frontend:
     image: docker7904/kittygram_frontend
-    # Используем sh -c, чтобы выполнить копирование и оставить контейнер запущенным
     command: sh -c "cp -r /app/build/. /frontend_static/ && sleep infinity"
     volumes:
       - ./frontend:/frontend_static/
@@ -28,11 +27,9 @@ services:
     ports:
       - "80:80"
     volumes:
-      # Маппим статику бэкенда туда, где её ждет Nginx (путь из конфига)
-      - ./static:/var/html/static/ 
-      # Маппим медиа
+      # ИСПРАВЛЕНО: путь изменен на /staticfiles/static/ для работы админки
+      - ./static:/staticfiles/static/ 
       - ./media:/app/media/
-      # Маппим фронтенд в /staticfiles/
       - ./frontend:/staticfiles/ 
     depends_on:
       - backend
